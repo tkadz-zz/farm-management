@@ -1,4 +1,4 @@
-# Farm Management System
+d# Farm Management System
 
 A comprehensive system for managing livestock and other aspects of farm operations.
 
@@ -72,6 +72,3 @@ Contributions are welcome! Here's how you can contribute:
 2.  Create a new branch for your feature or bug fix.
 3.  Make your changes and commit them with clear, descriptive messages.
 4.  Submit a pull request.
-
-## License
-This project is open-source and available under the [MIT License](LICENSE).
