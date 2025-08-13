@@ -1,4 +1,4 @@
-d# Farm Management System
+cd# Farm Management System
 
 A comprehensive system for managing livestock and other aspects of farm operations.
 
