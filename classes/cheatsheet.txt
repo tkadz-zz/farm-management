@@ -1,0 +1,91 @@
+-- =============================================
+-- 1️⃣ Get All Livestock
+-- =============================================
+SELECT * 
+FROM livestock 
+ORDER BY livestockName ASC;
+
+
+-- =============================================
+-- 2️⃣ Get All Batches for a Company
+-- =============================================
+SELECT 
+    b.*, 
+    l.livestockName
+FROM batch b
+INNER JOIN livestock l ON b.livestockID = l.id
+WHERE b.companyID = ?
+ORDER BY b.created_at DESC;
+
+
+-- =============================================
+-- 3️⃣ Get Current Stock Levels (Quantity - Losses - Sales)
+-- =============================================
+SELECT 
+    b.id AS batchID,
+    b.batchName,
+    l.livestockName,
+    b.quantity,
+    COALESCE(SUM(bl.quantity), 0) AS total_losses,
+    COALESCE(SUM(bs.quantity), 0) AS total_sales,
+    (b.quantity - COALESCE(SUM(bl.quantity), 0) - COALESCE(SUM(bs.quantity), 0)) AS current_quantity
+FROM batch b
+INNER JOIN livestock l ON b.livestockID = l.id
+LEFT JOIN batch_losses bl ON b.id = bl.batchID
+LEFT JOIN batch_sales bs ON b.id = bs.batchID
+WHERE b.companyID = ? 
+  AND b.status = 'active'
+GROUP BY b.id
+ORDER BY b.created_at DESC;
+
+
+-- =============================================
+-- 4️⃣ Get Profits & Losses in $
+-- =============================================
+SELECT 
+    b.id,
+    b.batchName,
+    (COALESCE(SUM(bs.sale_price * bs.quantity), 0)) AS total_sales_amount,
+    (COALESCE(SUM(bl.loss_value), 0)) AS total_loss_amount,
+    (COALESCE(SUM(bs.sale_price * bs.quantity), 0) - COALESCE(SUM(bl.loss_value), 0)) AS net_profit
+FROM batch b
+LEFT JOIN batch_sales bs ON b.id = bs.batchID
+LEFT JOIN batch_losses bl ON b.id = bl.batchID
+WHERE b.companyID = ?
+GROUP BY b.id
+ORDER BY net_profit DESC;
+
+
+-- =============================================
+-- 5️⃣ Get Livestock with Total Batches
+-- =============================================
+SELECT 
+    l.id,
+    l.livestockName,
+    COUNT(b.id) AS total_batches
+FROM livestock l
+LEFT JOIN batch b ON l.id = b.livestockID
+GROUP BY l.id
+ORDER BY l.livestockName ASC;
+
+
+-- =============================================
+-- 6️⃣ Get Monthly Sales Trend
+-- =============================================
+SELECT 
+    DATE_FORMAT(bs.sale_date, '%Y-%m') AS month,
+    SUM(bs.quantity) AS total_sold
+FROM batch_sales bs
+INNER JOIN batch b ON bs.batchID = b.id
+WHERE b.companyID = ?
+GROUP BY month
+ORDER BY month ASC;
+
+
+-- =============================================
+-- 7️⃣ Hide Inactive/Completed Batches
+-- =============================================
+SELECT * 
+FROM batch
+WHERE companyID = ? 
+  AND status = 'active';

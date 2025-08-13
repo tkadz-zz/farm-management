@@ -1,0 +1,43 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Force HTTPS (optional but recommended)
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove www (optional)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# Rewrite rules for specific pages
+RewriteRule ^/$ sign.php [L,QSA]
+RewriteRule ^sign-in$ sign-in.php [L,QSA]
+RewriteRule ^sign-up$ sign-up.php [L,QSA]
+RewriteRule ^sign-out$ sign-out.php [L,QSA]
+RewriteRule ^track$ track.php [L,QSA]
+
+# Rewrite rules for other pages
+# Route dashboard to controller, not view
+RewriteRule ^dashboard$ routes/web.php?url=dashboard/index [L,QSA]
+RewriteRule ^batch/([0-9]+)$ routes/web.php?url=batch&batch=$1 [L,QSA]
+
+
+#RewriteRule ^blog/([0-9]+)$ blog.php?id=$1 [L,QSA]  # Example for blog post with ID
+#RewriteRule ^blog/category/([a-zA-Z0-9_-]+)$ blog.php?category=$1 [L,QSA]  # Example for blog category
+
+
+# Catch-all: Rewrite all other requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# Prevent direct access to view files
+##<FilesMatch "\.(php)$">
+##    Order Deny,Allow
+##    Deny from all
+##</FilesMatch>
+
+
+# Custom Error Pages
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
