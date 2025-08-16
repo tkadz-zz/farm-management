@@ -16,10 +16,20 @@ RewriteRule ^sign-up$ sign-up.php [L,QSA]
 RewriteRule ^sign-out$ sign-out.php [L,QSA]
 RewriteRule ^track$ track.php [L,QSA]
 
+
 # Rewrite rules for other pages
-# Route dashboard to controller, not view
-RewriteRule ^dashboard$ routes/web.php?url=dashboard/index [L,QSA]
+# Route to controller, not view 
+RewriteRule ^dashboard$ routes/web.php?url=dashboard [L,QSA]
 RewriteRule ^batch/([0-9]+)$ routes/web.php?url=batch&batch=$1 [L,QSA]
+RewriteRule ^livestock/([0-9]+)$ routes/web.php?url=livestock&livestock=$1 [L,QSA]
+RewriteRule ^profile$ routes/web.php?url=profile [L,QSA]
+RewriteRule ^add_batch$ routes/web.php?url=add_batch [L,QSA]
+RewriteRule ^add_livestock$ routes/web.php?url=add_livestock [L,QSA]
+RewriteRule ^add_sale$ routes/web.php?url=add_sale [L,QSA]
+RewriteRule ^add_loss$ routes/web.php?url=add_loss [L,QSA]
+RewriteRule ^add_health_record$ routes/web.php?url=add_health_record [L,QSA]
+RewriteRule ^add_growth_log$ routes/web.php?url=add_growth_log [L,QSA]
+
 
 
 #RewriteRule ^blog/([0-9]+)$ blog.php?id=$1 [L,QSA]  # Example for blog post with ID

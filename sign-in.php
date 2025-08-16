@@ -30,7 +30,10 @@ $title = "Sign-in";
                     </div>
                                       
                     <?php session_start(); ?>
-                    <?php include_once './components/logs/error-report.php'; ?>
+                    <span class="p-2">
+                      <?php include_once './components/logs/error-report.php'; ?>
+                    </span>
+
                     <div class="text-center">
                       <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
                     </div>

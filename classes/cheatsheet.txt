@@ -89,3 +89,31 @@ SELECT *
 FROM batch
 WHERE companyID = ? 
   AND status = 'active';
+
+
+
+$sql = "SELECT 
+                b.*, 
+                l.livestockName,
+                bhl.date AS bhl_date,
+                COALESCE(SUM(bl.quantity), 0) AS loss_quantity,
+                COALESCE(SUM(bs.quantity), 0) AS sale_quantity,
+                COALESCE(SUM(bl.estimatedLoss), 0) AS estimated_loss,
+                COALESCE(SUM(bs.totalPrice), 0) AS total_revenue,
+                COALESCE(SUM(bhr.averageWeight), 0) AS bhl_averageWeight
+            FROM 
+                batch b
+            LEFT JOIN
+                livestock l ON b.livestockID = l.id
+            LEFT JOIN 
+                batch_losses bl ON b.id = bl.batchID
+            LEFT JOIN 
+                batch_sales bs ON b.id = bs.batchID
+            LEFT JOIN
+                batch_health_records bhr ON b.id = bhr.batchID
+            WHERE 
+                b.companyID = ?
+            AND
+                b.livestockID = ?
+            GROUP BY 
+                b.id";

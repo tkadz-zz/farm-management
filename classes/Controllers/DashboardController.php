@@ -11,7 +11,6 @@ class DashboardController {
     }
 
     public function index() {
-
         if (!isset($_SESSION['user'])) {
             header("Location: ./sign-in");
             exit;
@@ -25,8 +24,9 @@ class DashboardController {
 
         // Fetch data from the model
         $batches = $this->dashboardModel->getDashboardData($companyID);
-        $livestock = $this->dashboardModel->getLivestock();
+        $livestock = $this->dashboardModel->getLivestock($companyID);
 
+        
         // Include the view with $batches and $livestock available
         include __DIR__ . '/../../public/dashboard.php';
     }

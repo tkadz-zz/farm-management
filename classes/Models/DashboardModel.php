@@ -8,24 +8,44 @@ class DashboardModel extends Dbh {
             $sql = "SELECT 
             b.*, 
             l.livestockName,
-            COALESCE(SUM(bl.estimatedLoss), 0) AS total_loss_value,
-            COALESCE(SUM(bs.totalPrice), 0) AS total_revenue,
-            COALESCE(SUM(bl.quantity), 0) AS total_losses,
-            COALESCE(SUM(bs.quantity), 0) AS total_sales,
-            (b.quantity - COALESCE(SUM(bl.quantity), 0) - COALESCE(SUM(bs.quantity), 0)) AS current_quantity
+            l.category,
+            COALESCE(bl.total_loss_value, 0) AS total_loss_value,
+            COALESCE(bs.total_revenue, 0) AS total_revenue,
+            COALESCE(bl.total_losses, 0) AS total_losses,
+            COALESCE(bs.total_sales, 0) AS total_sales,
+            (b.quantity 
+                - COALESCE(bl.total_losses, 0) 
+                - COALESCE(bs.total_sales, 0)
+            ) AS current_quantity
         FROM 
             batch b
-        INNER JOIN 
+        LEFT JOIN 
             livestock l ON b.livestockID = l.id
-        LEFT JOIN 
-            batch_losses bl ON b.id = bl.batchID
-        LEFT JOIN 
-            batch_sales bs ON b.id = bs.batchID
+        LEFT JOIN (
+            SELECT 
+                batchID, 
+                SUM(estimatedLoss) AS total_loss_value,
+                SUM(quantity) AS total_losses
+            FROM 
+                batch_losses
+            GROUP BY batchID
+        ) bl ON b.id = bl.batchID
+        LEFT JOIN (
+            SELECT 
+                batchID, 
+                SUM(totalPrice) AS total_revenue,
+                SUM(quantity) AS total_sales
+            FROM 
+                batch_sales
+            GROUP BY batchID
+        ) bs ON b.id = bs.batchID
         WHERE 
-            b.companyID = ? AND b.status = 'active'
+            b.companyID = ? 
+            AND b.status = 'active'
         GROUP BY 
             b.id
         ";
+
             $stmt = $this->con()->prepare($sql);
             $stmt->execute([$companyID]);
             return $stmt->fetchAll();
@@ -35,31 +55,38 @@ class DashboardModel extends Dbh {
         }
     }
 
-    public function getLivestock(){
+    public function getLivestock($companyID) {
         try {
-            $sql = "SELECT 
-            l.id,
-            l.livestockName,
-            COUNT(b.id) AS activeBatchCount
-            FROM 
-                livestock l
-            LEFT JOIN 
-                batch b 
-            ON l.id = b.livestockID 
-            AND b.status = 'active'
-            GROUP BY 
-                l.id, l.livestockName
-            ORDER BY 
-                l.livestockName ASC;
+            $sql = "
+                SELECT 
+                    l.id,
+                    l.livestockName,
+                    l.category,
+                    COUNT(b.id) AS activeBatchCount
+                FROM 
+                    livestock l
+                LEFT JOIN 
+                    batch b 
+                    ON l.id = b.livestockID 
+                    AND b.status = 'active'
+                WHERE 
+                    l.companyID = ?
+                GROUP BY 
+                    l.id, l.livestockName
+                ORDER BY 
+                    l.livestockName ASC
             ";
+
             $stmt = $this->con()->prepare($sql);
-            $stmt->execute();
+            $stmt->execute([$companyID]);
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             error_log('DashboardModel getLivestock error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/dashboard_errors.log');
             return [];
         }
     }
+
+    
 
 
     

@@ -40,9 +40,9 @@ $dates = array_column($batchGrowthLogs, 'date');
           <div class="col-md-8">
             <div class="numbers">
               <p class="text-sm mb-0 text-uppercase font-weight-bold">Quantity</p>
-              <span >
+              <span class="text-primary text-sm">
                 <span class="font-weight-bolder h5 text-success"><?= $batches[0]['quantity'] - ($batches[0]['sale_quantity'] + $batches[0]['loss_quantity']) ?></span>
-                <br>Opening: <span class=" font-weight-bolder"><?= $batches[0]['quantity'] ?></span>
+                <br>Total In: <span class=" font-weight-bolder"><?= $batches[0]['quantity'] ?></span>
               </span>
             </div>
           </div>
@@ -62,10 +62,11 @@ $dates = array_column($batchGrowthLogs, 'date');
           <div class="col-md-8">
             <div class="numbers">
               <p class="text-sm mb-0 text-uppercase font-weight-bold">Sold/Lost</p>
-              <span> <span class="fa fa-arrow-up text-success"><?= $batches[0]['sale_quantity'] ?></span> | <span class="fa fa-arrow-down text-danger"><?= $batches[0]['loss_quantity'] ?></span> </span>
-              <p class="mb-0">
-                <br>
-              </p>
+              <span class="text-primary text-sm"> 
+                <span class="fa fa-arrow-up text-success"><?= $batches[0]['sale_quantity'] ?></span> | <span class="fa fa-arrow-down text-danger"><?= $batches[0]['loss_quantity'] ?></span> </span>
+              <span class="text-primary text-sm">
+                <br><span class="text-primary text-sm">Total Out: <span class="font-weight-bolder"><?= $batches[0]['sale_quantity'] + $batches[0]['loss_quantity'] ?></span></span>
+              </span>
             </div>
           </div>
           <div class="col-md-4 text-end">
@@ -109,6 +110,7 @@ $dates = array_column($batchGrowthLogs, 'date');
 <div class="row pt-4">
   
   <div class="col-md-6">
+  <a data-toggle="modal" data-target=".add_sales_modal" class="btn btn-sm btn-primary text-white">ADD SALE <span class="fa fa-plus"></span></a>
     <div class="card mb-4">
       <div class="card-header pb-0">
         <h6>Sales</h6>
@@ -154,6 +156,7 @@ $dates = array_column($batchGrowthLogs, 'date');
 
 
   <div class="col-md-6">
+  <a data-toggle="modal" data-target=".add_loss_modal" class="btn btn-sm btn-primary text-white">ADD LOSS <span class="fa fa-plus"></span></a>
     <div class="card mb-4">
       <div class="card-header pb-0">
         <h6>Losses</h6>
@@ -203,6 +206,7 @@ $dates = array_column($batchGrowthLogs, 'date');
 <div class="row">
 
   <div class="col-md-6">
+  <a data-toggle="modal" data-target=".add_growth_log_modal" class="btn btn-sm btn-outline-primary text-primary">RECORD GROWTH <span class="fa fa-plus"></span></a>
     <div class="col-md-12 p-2">
       <div class="card card-carousel">
         <div class="card-body p-3">
@@ -220,6 +224,7 @@ $dates = array_column($batchGrowthLogs, 'date');
 
 
   <div class="col-md-6">
+  <a data-toggle="modal" data-target=".add_health_record_modal" class="btn btn-sm btn-outline-primary text-primary">RECORD HEALTH <span class="fa fa-plus"></span></a>
     <div class="card mb-4">
       <div class="card-header pb-0">
         <h6>Health Records</h6>
@@ -269,7 +274,7 @@ $dates = array_column($batchGrowthLogs, 'date');
     data: {
       labels: dates, // X-axis labels
       datasets: [{
-        label: "Average Weight",
+        label: "Average Weight (kg)",
         data: weights, // Y-axis data
         borderColor: "rgba(45, 160, 237, 1)",
         backgroundColor: "rgba(45, 160, 237, 0.2)",

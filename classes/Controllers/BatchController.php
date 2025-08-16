@@ -28,4 +28,107 @@ class BatchController {
     }
 
 
+    public function addBatch($batchData) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $companyID = $_SESSION['user']['companyID'] ?? null;
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        // Validate and process $batchData
+        if ($this->batchModel->addBatch($batchData, $companyID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Batch added successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to add batch.'];
+        }
+
+        header("Location: /dashboard");
+        exit;
+    }
+
+    public function addSale($batchData){
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        // Validate and process $batchData
+        if ($this->batchModel->addSale($batchData, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Sale added successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to add sale.'];
+        }
+
+        header("Location: /batch/" . $batchData['batchID']);
+        exit;
+    }
+
+    
+    public function addLoss($data){
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        // Validate and process $batchData
+        if ($this->batchModel->addLoss($data, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Loss added successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to add sale.'];
+        }
+
+        header("Location: /batch/" . $data['batchID']);
+        exit;
+    }
+
+
+    public function addHealthRecord($data) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        // Validate and process $data
+        if ($this->batchModel->addHealthRecord($data, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Health record added successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to add health record.'];
+        }
+
+        header("Location: /batch/" . $data['batchID']);
+        exit;
+    }
+
+    public function addGrowthLog($data) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        // Validate and process $data
+        if ($this->batchModel->addGrowthLog($data, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Growth log added successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to add growth log.'];
+        }
+
+        header("Location: /batch/" . $data['batchID']);
+        exit;
+    }
+
 }

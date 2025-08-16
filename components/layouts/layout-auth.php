@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  
+  <link rel="apple-touch-icon" sizes="76x76" href="/../../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/../../assets/img/favicon.png">
+
   <title><?php echo $_SESSION['user_data']['name'] ?> - Farm Management - <?php echo isset($title) ? $title : 'Home'; ?></title>
 
   <!--     Fonts and icons     -->
@@ -30,7 +30,8 @@
 <!-- DataTables Bootstrap 4 Theme -->
 <link href="../assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
+<!-- Bootstrap 4.1 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
 </head>
 
@@ -51,7 +52,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="../pages/dashboard.html">
+          <a class="nav-link active" href="/dashboard">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
             </div>
@@ -94,7 +95,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/profile.html">
+          <a class="nav-link " href="/profile">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
@@ -236,7 +237,12 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-    
+    <span class="p-2">
+      <?php 
+        include_once __DIR__ . '/../../components/logs/error-report.php'; 
+        require_once __DIR__ . '/../../components/modals/modals.php';
+      ?>
+    </span>
     <!-- Dynamic content section -->
         <?php echo $content; ?>
       
@@ -469,7 +475,10 @@
 <script src="../assets/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="../assets/datatables/demo/datatables-demo.js"></script>
 
-
+<!-- Bootstrap 4.1 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </body>
 

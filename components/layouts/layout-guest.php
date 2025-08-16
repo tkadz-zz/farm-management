@@ -100,7 +100,7 @@
                           data-bs-toggle="dropdown" 
                           aria-expanded="false">
                             <span class="profile-circle">
-                                <?= strtoupper($_SESSION['user_data']['name'][0]); ?>
+                                <?= strtoupper($_SESSION['user_data']['name'][0]); ?><?= strtoupper($_SESSION['user_data']['surname'][0]); ?>
                             </span>
                         </a>
 

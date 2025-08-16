@@ -22,6 +22,8 @@ $total_revenue = array_sum(array_column($batches, 'total_revenue'));
 $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
 ?>
 
+
+
 <div class="row">
   <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
     <div class="card">
@@ -148,11 +150,12 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
 
 <div class="row pt-4">
       <div class="col-md-8 pt-2">
+      <a data-toggle="modal" data-target=".add_batch_modal" class="btn btn-sm btn-outline-primary">ADD BATCH <span class="fa fa-plus"></span></a>
         <div class="card mb-4">
           <div class="card-body">
-          <div class="card-header pb-0">
-            <h6>Available Batches</h6>
-          </div>
+            <div class="card-header pb-0">
+              <h6>Available Batches</h6>
+            </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
               <table id="dataTable" class="table table-hover table-striped align-items-center mb-0">
@@ -177,7 +180,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                       </div>
                     </td>
                     <td>
-                      <p class="text-xs font-weight-bold mb-0"><?= $batch['livestockName'] ?></p>
+                      <p class="text-xs font-weight-bold mb-0"><?= $batch['livestockName'] ?> - <?= $batch['category'] ?></p>
                     </td>
                     <td class="align-middle text-center text-sm">
                       <span class=""><?= $batch['current_quantity'] ?>/<?= $batch['quantity'] ?></span>
@@ -189,7 +192,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                       <span class="text-secondary text-xs font-weight-bold"><?= date('d/m/y', strtotime($batch['expected_at'])) ?></span>
                     </td>
                     <td class="align-middle">
-                      <a href="./batch/<?= $batch['id'] ?>" class="text-primary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <a href="/batch/<?= $batch['id'] ?>" class="text-primary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                         <span class="fa fa-computer-mouse"></span> View
                       </a>
                     </td>
@@ -204,6 +207,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
       </div>
 
     <div class="col-md-4 pt-2">
+    <a data-toggle="modal" data-target=".add_new_livestock_modal" class="btn btn-sm btn-outline-primary">NEW LIVESTOCK <span class="fa fa-plus"></span></a>
       <div class="card">
             <div class="card-header pb-0 p-3">
               <h6 class="mb-0">Livestock - <span class="font-weight-bold text-sm rounded p-1 "><?= count($livestock) ?></span></h6>
@@ -217,12 +221,12 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                       <i class="fa fa-cow text-white opacity-10"></i>
                     </div>
                     <div class="d-flex flex-column">
-                      <h6 class="mb-1 text-dark text-sm"><?= $livestock_role['livestockName'] ?></h6>
+                      <h6 class="mb-1 text-dark text-sm"><?= $livestock_role['livestockName'] ?> - <span class=""><?= $livestock_role['category'] ?></span> </h6>
                       <span class="text-xs"> <?= $livestock_role['activeBatchCount'] ?> batch<?php if($livestock_role['activeBatchCount'] > 1): echo 's'; ?><?php endif; ?> of <?= $livestock_role['livestockName'] ?> </span></span>
                     </div>
                   </div>
                   <div class="d-flex">
-                    <button class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></button>
+                    <a href="./livestock/<?= $livestock_role['id'] ?>" class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i class="ni ni-bold-right" aria-hidden="true"></i></a>
                   </div>
                 </li>
             <?php endforeach; ?>
@@ -261,7 +265,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
               },
               title: {
                   display: true,
-                  text: '$ Revenue vs Loss'
+                  text: '($) Revenue / Loss'
               },
               tooltip: {
               callbacks: {
@@ -324,7 +328,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
         
         title: {
             display: true,
-            text: '% Sales vs Losses'
+            text: '(%) Sales / Losses'
         },
         tooltip: {
           callbacks: {
@@ -344,7 +348,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                 let label = this.data.labels[dataIndex];
                 
                 // Example: Redirect to a filtered table page
-                window.location.href = `/batches?filter=${encodeURIComponent(label)}`;
+                //window.location.href = `/batches?filter=${encodeURIComponent(label)}`;
             }
         }
     }
