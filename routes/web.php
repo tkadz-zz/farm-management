@@ -136,6 +136,57 @@ switch (true) {
         $controller->addGrowthLog($data);
         break;
 
+    case $url === 'delete_sale':
+        $batchID = $_GET['batchID'] ?? null;
+        $saleID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new BatchController();
+        $controller->deleteSale($saleID, $batchID);
+        break;
+    case $url === 'delete_loss':
+        $batchID = $_GET['batchID'] ?? null;
+        $lossID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new BatchController();
+        $controller->deleteLoss($lossID, $batchID);
+        break;
+    case $url === 'delete_growth_log':
+        $batchID = $_GET['batchID'] ?? null;
+        $logID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new BatchController();
+        $controller->deleteGrowthLog($logID, $batchID);
+        break;
+
+    case $url === 'delete_health_record':
+        $batchID = $_GET['batchID'] ?? null;
+        $recordID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new BatchController();
+        $controller->deleteHealthRecord($recordID, $batchID);
+        break;
+    case $url === 'delete_batch':
+        $batchID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new BatchController();
+        $controller->deleteBatch($batchID);
+        break;
+    case $url === 'delete_livestock':
+        $livestockID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+        $controller = new LivestockController();
+        $controller->deleteLivestock($livestockID);
+        break;
+    
+    case $url === 'update_batch':
+        $data = [
+            'batchID' => $_POST['batchID']  ?? 0,
+            'livestockID' => $_POST['livestockID']  ?? 0,
+            'batchName' => $_POST['batchName']  ?? '',
+            'quantity' => $_POST['quantity']  ?? 0,
+            'costPerUnit' => $_POST['costPerUnit']  ?? 0,
+            'purchasedOn' => $_POST['purchasedOn']  ?? date('Y-m-d'),
+            'expectedAt' => $_POST['expectedAt']  ?? date('Y-m-d'),
+            'purchasedFrom' => $_POST['purchasedFrom']  ?? '',
+            'status' => $_POST['status']  ?? '',
+            'notes' => $_POST['notes']  ?? '',
+        ];
+        $controller = new BatchController();
+        $controller->updateBatch($data);
     default:
         http_response_code(404);
         echo "Page not found";

@@ -1,7 +1,7 @@
 
 
 <!-- ADD BATCH MODAL -->
-<div class="modal fade add_batch_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_batch_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg p-2">
     <div class="modal-content p-2">
       <div class="p-3">
@@ -17,7 +17,7 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="livestockID" class="form-label">Livestock</label>
-                    <select name="livestockID" id="livestockID" class="form-select">
+                    <select name="livestockID" id="livestockID" class="form-select" required>
                         <!-- Loop from DB: Example -->
                         <option value="">Select livestock</option>
                             <?php foreach ($livestock as $livestockitem) : ?>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="batchName" class="form-label">Batch Name</label>
-                    <input name="batchName" type="text" id="batchName" class="form-control" placeholder="Enter batch name">
+                    <input name="batchName" type="text" id="batchName" class="form-control" placeholder="Enter batch name" required>
                 </div>
             </div>
 
@@ -35,11 +35,11 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="quantity" class="form-label">Quantity</label>
-                    <input name="batchQuantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity">
+                    <input name="batchQuantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity" required>
                 </div>
                 <div class="col-md-6">
                     <label for="costPerUnit" class="form-label">Cost Per Unit</label>
-                    <input name="costPerUnit" type="number" step="0.01" id="costPerUnit" class="form-control" placeholder="Enter cost per unit">
+                    <input name="costPerUnit" type="number" step="0.01" id="costPerUnit" class="form-control" placeholder="Enter cost per unit" required>
                 </div>
             </div>
 
@@ -47,11 +47,11 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="purchaseDate" class="form-label">Purchase Date</label>
-                    <input name="purchaseDate" type="date" id="purchaseDate" class="form-control">
+                    <input name="purchaseDate" type="date" id="purchaseDate" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label for="expected_at" class="form-label">Expected At</label>
-                    <input name="expected_at" type="date" id="expected_at" class="form-control">
+                    <input name="expected_at" type="date" id="expected_at" class="form-control" required>
                 </div>
             </div>
 
@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="status" class="form-label">Status</label>
-                    <select name="status" id="status" class="form-select">
+                    <select name="status" id="status" class="form-select" required>
                         <option value="active">Active</option>
                         <option value="completed">Completed</option>
                         <option value="archived">Archived</option>
@@ -93,7 +93,7 @@
 
 
 <!-- ADD LIVESTOCK MODAL -->
-<div class="modal fade add_new_livestock_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_new_livestock_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="p-3">
@@ -109,11 +109,11 @@
           <div class="row mb-3">
               <div class="col-md-6">
                   <label for="livestockName" class="form-label">Livestock Name</label>
-                  <input name="livestockName" type="text" id="livestockName" class="form-control" placeholder="Enter livestock name">
+                  <input name="livestockName" type="text" id="livestockName" class="form-control" placeholder="Enter livestock name" required>
               </div>
               <div class="col-md-6">
                   <label for="category" class="form-label">Livestock category</label>
-                  <input name="category" type="text" id="category" class="form-control" placeholder="Enter batch category">
+                  <input name="category" type="text" id="category" class="form-control" placeholder="Enter batch category" required>
               </div>
           </div>
           
@@ -130,7 +130,7 @@
 
 
 <!-- ADD SALES MODAL -->
-<div class="modal fade add_sales_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_sales_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md p-2">
     <div class="modal-content p-2">
       <div class="p-3">
@@ -148,12 +148,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="quantity" class="form-label">Quantity</label>
-                    <input name="quantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity">
+                    <input name="quantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity" required>
                 </div>
                 
                 <div class="col-md-6">
                     <label for="unitPrice" class="form-label">Cost Per Unit</label>
-                    <input name="unitPrice" type="number" step="0.01" id="unitPrice" class="form-control" placeholder="Enter cost per unit">
+                    <input name="unitPrice" type="number" step="0.01" id="unitPrice" class="form-control" placeholder="Enter cost per unit" required>
                 </div>
             </div>
 
@@ -161,12 +161,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="buyerName" class="form-label">Buyer Name</label>
-                    <input name="buyerName" type="text" id="buyerName" class="form-control" placeholder="Enter buyer name">
+                    <input name="buyerName" type="text" id="buyerName" class="form-control" placeholder="Enter buyer name" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="soldOn" class="form-label">Sold On</label>
-                    <input name="soldOn" type="date" id="soldOn" class="form-control">
+                    <input name="soldOn" type="date" id="soldOn" class="form-control" required>
                 </div>
             </div>
 
@@ -192,7 +192,7 @@
 
 
 <!-- ADD LOSS MODAL -->
-<div class="modal fade add_loss_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_loss_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md p-2">
     <div class="modal-content p-2">
       <div class="p-3">
@@ -210,12 +210,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="quantity" class="form-label">Quantity</label>
-                    <input name="quantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity">
+                    <input name="quantity" type="number" id="quantity" class="form-control" placeholder="Enter quantity" required>
                 </div>
                 
                 <div class="col-md-6">
                     <label for="unitPrice" class="form-label">Cost Per Unit</label>
-                    <input name="unitPrice" type="number" step="0.01" id="unitPrice" class="form-control" placeholder="Enter cost per unit">
+                    <input name="unitPrice" type="number" step="0.01" id="unitPrice" class="form-control" placeholder="Enter cost per unit" required>
                 </div>
             </div>
 
@@ -223,12 +223,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="reason" class="form-label">Reason</label>
-                    <input name="reason" type="text" id="reason" class="form-control" placeholder="Enter reason">
+                    <input name="reason" type="text" id="reason" class="form-control" placeholder="Enter reason" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="dateIncurred" class="form-label">Date Incurred</label>
-                    <input name="dateIncurred" type="date" id="dateIncurred" class="form-control">
+                    <input name="dateIncurred" type="date" id="dateIncurred" class="form-control" required>
                 </div>
             </div>
 
@@ -253,7 +253,7 @@
 
 
 <!-- ADD MEDICAL RECORD MODAL -->
-<div class="modal fade add_health_record_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_health_record_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md p-2">
     <div class="modal-content p-2">
       <div class="p-3">
@@ -273,19 +273,19 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="dateRecorded" class="form-label">Date Recorded</label>
-                    <input name="dateRecorded" type="date" id="dateRecorded" class="form-control">
+                    <input name="dateRecorded" type="date" id="dateRecorded" class="form-control" required>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="type" class="form-label">Type</label>
-                    <input name="type" type="text" id="type" class="form-control" placeholder="Enter type of health activity">
+                    <input name="type" type="text" id="type" class="form-control" placeholder="Enter type of health activity" required>
                 </div>
                 
                 <div class="col-md-6">
                     <label for="estimated_costs" class="form-label">Estimated Costs</label>
-                    <input name="estimated_costs" type="number" step="0.01" id="estimated_costs" class="form-control" placeholder="Enter estimated costs">
+                    <input name="estimated_costs" type="number" step="0.01" id="estimated_costs" class="form-control" placeholder="Enter estimated costs" required>
                 </div>
             </div>
 
@@ -310,7 +310,7 @@
 
 
 <!-- ADD GROWTH LOG MODAL -->
-<div class="modal fade add_growth_log_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div style="z-index: 9999;" class="modal fade add_growth_log_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md p-2">
     <div class="modal-content p-2">
       <div class="p-3">
@@ -331,12 +331,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="dateRecorded" class="form-label">Date Recorded</label>
-                    <input name="dateRecorded" type="date" id="dateRecorded" class="form-control">
+                    <input name="dateRecorded" type="date" id="dateRecorded" class="form-control" required>
                 </div>
                 
                 <div class="col-md-6">
                     <label for="averageWeight" class="form-label">Average Weight</label>
-                    <input name="averageWeight" type="number" step="0.01" id="averageWeight" class="form-control" placeholder="Enter average weight">
+                    <input name="averageWeight" type="number" step="0.01" id="averageWeight" class="form-control" placeholder="Enter average weight" required>
                 </div>
             </div>
 

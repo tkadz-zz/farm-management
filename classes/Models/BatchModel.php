@@ -103,7 +103,7 @@ class BatchModel extends Dbh {
     public function getGrowthLogsByBatchID($batchID)
     {
         try {
-            $sql = "SELECT date, averageWeight, notes
+            $sql = "SELECT date, averageWeight, notes, id, batchID
                     FROM batch_growth_logs
                     WHERE batchID = ?
                     ORDER BY date ASC";
@@ -217,4 +217,101 @@ class BatchModel extends Dbh {
             return false;
         }
     }
+
+
+    public function deleteSale($id, $batchID){
+        try {
+            $sql = "DELETE FROM batch_sales WHERE batchID=? AND id=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $batchID,
+                $id
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    public function deleteLoss($id, $batchID){
+        try {
+            $sql = "DELETE FROM batch_losses WHERE batchID=? AND id=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $batchID,
+                $id
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    public function deleteGrowthLog($id, $batchID){
+        try {
+            $sql = "DELETE FROM batch_growth_logs WHERE batchID=? AND id=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $batchID,
+                $id
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    public function deleteHealthRecord($id, $batchID){
+        try {
+            $sql = "DELETE FROM batch_health_records WHERE batchID=? AND id=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $batchID,
+                $id
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    public function deleteBatch($batchID, $companyID){
+        try {
+            $sql = "DELETE FROM batch WHERE id=? AND companyID=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $batchID,
+                $companyID
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    public function updateBatch($data, $userID, $companyID){
+        try {
+            $totalCost = $data['quantity'] * $data['costPerUnit'];
+            $sql = "UPDATE batch SET livestockID=?, batchName=?, quantity=?, purchaseDate=?, source=?, costPerUnit=?, totalCost=?, notes=?, expected_at=?, status=? WHERE id=? AND companyID=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $data['livestockID'],
+                $data['batchName'],
+                $data['quantity'],
+                $data['purchasedOn'],
+                $data['purchasedFrom'],
+                $data['costPerUnit'],
+                $totalCost,
+                $data['notes'],
+                $data['expectedAt'],
+                $data['status'],
+                $data['batchID'],
+                $companyID
+            ]);
+        }catch (\PDOException $e) {
+            error_log('BatchModel updateBatch error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
 }

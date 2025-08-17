@@ -51,5 +51,21 @@ class LivestockModel extends Dbh {
         }
     }
 
+    public function deleteLivestock($id, $companyID){
+        try {
+            $sql = "DELETE FROM livestock WHERE id=? AND companyID=?";
+            $stmt = $this->con()->prepare($sql);
+            return $stmt->execute([
+                $id,
+                $companyID
+            ]);
+        } catch (\PDOException $e) {
+            error_log('BatchModel addGrowthLog error: ' . $e->getMessage(), 3, __DIR__ . '/../../logs/batch_errors.log');
+            return false;
+        }
+    }
+
+    
+
 }
                 

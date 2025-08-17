@@ -6,6 +6,8 @@ $title = "Batch Overview";
 // Extract arrays for Chart.js
 $weights = array_column($batchGrowthLogs, 'averageWeight');
 $dates = array_column($batchGrowthLogs, 'date');
+
+$expectedRevenue = $batches[0]['costPerUnit'] * $batches[0]['quantity']
 ?>
 
 <div class="row">
@@ -26,14 +28,14 @@ $dates = array_column($batchGrowthLogs, 'date');
           </div>
           <div class="col-md-4 col-sm-4 text-end">
             <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-              <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+              <i class="fa fa-box-open text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-3 col-sm-4 mb-xl-0 mb-4">
+  <div class="col-md-2 col-sm-4 mb-xl-0 mb-4">
     <div class="card">
       <div class="card-body p-3">
         <div class="row">
@@ -48,14 +50,37 @@ $dates = array_column($batchGrowthLogs, 'date');
           </div>
           <div class="col-md-4 text-end">
             <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-              <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+              <i class="fa fa-ranking-star text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-3 col-sm-4 mb-xl-0 mb-4">
+  <div class="col-md-2 col-sm-4 mb-xl-0 mb-4">
+    <div class="card">
+      <div class="card-body p-3">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="numbers">
+              <p class="text-sm mb-0 text-uppercase font-weight-bold">Prices</p>
+              <span class="text-primary text-sm"> 
+                <span class=""> $<?= $batches[0]['costPerUnit'] ?> each</span> </span>
+              <span class="text-primary text-sm">
+                <br><span class="text-primary text-sm">Expected: <span> $<?= $expectedRevenue ?></span></span>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 text-end">
+            <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+              <i class="fa fa-tag text-lg opacity-10" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 col-sm-4 mb-xl-0 mb-4">
     <div class="card">
       <div class="card-body p-3">
         <div class="row">
@@ -70,8 +95,8 @@ $dates = array_column($batchGrowthLogs, 'date');
             </div>
           </div>
           <div class="col-md-4 text-end">
-            <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-              <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+            <div class="icon icon-shape bg-gradient-secondary shadow-success text-center rounded-circle">
+              <i class="fa fa-hand-holding-dollar text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
         </div>
@@ -98,7 +123,7 @@ $dates = array_column($batchGrowthLogs, 'date');
           </div>
           <div class="col-md-4 text-end">
             <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-              <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+              <i class="fa fa-sack-dollar text-lg opacity-10" aria-hidden="true"></i>
             </div>
           </div>
         </div>
@@ -108,7 +133,7 @@ $dates = array_column($batchGrowthLogs, 'date');
 </div>
 
 <div class="row pt-4">
-  
+
   <div class="col-md-6">
   <a data-toggle="modal" data-target=".add_sales_modal" class="btn btn-sm btn-primary text-white">ADD SALE <span class="fa fa-plus"></span></a>
     <div class="card mb-4">
@@ -116,8 +141,8 @@ $dates = array_column($batchGrowthLogs, 'date');
         <h6>Sales</h6>
       </div>
       <div class="card-body px-0 pt-0 pb-2">
-        <div class="table-responsive p-0">
-          <table  id="saletable" class="table table-hover align-items-center mb-0">
+        <div style="height: 200px;" class="table-responsive p-0">
+          <table id="saletable" class="table table-hover align-items-center mb-0">
             <thead>
               <tr class="text-center">
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
@@ -125,6 +150,7 @@ $dates = array_column($batchGrowthLogs, 'date');
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Price</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -145,6 +171,32 @@ $dates = array_column($batchGrowthLogs, 'date');
                 <td>
                   <p class="text-xs font-weight-bold mb-0"><?= $batchSale['date']; ?></p>
                 </td>
+
+                <td class="text-center">
+                  <div class="dropdown">
+                    <span class="fa fa-ellipsis-h" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <!-- Edit -->
+                      <li>
+                        <a href="#" 
+                          class="dropdown-item" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#edit_sale_modal_<?= $batchSale['id'] ?>">
+                          <i class="fa fa-edit me-2 text-primary"></i>Edit
+                        </a>
+                      </li>
+                      <!-- Delete -->
+                      <li>
+                        <a href="/delete_sale/<?= $batchSale['id'] ?>/<?= $batchSale['batchID'] ?>" 
+                          class="dropdown-item text-danger"
+                          onclick="return confirm('Are you sure you want to delete this entry?');">
+                          <i class="fa fa-trash me-2"></i>Delete
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+
               </tr>
             <?php endforeach; ?>
             </tbody>
@@ -162,7 +214,7 @@ $dates = array_column($batchGrowthLogs, 'date');
         <h6>Losses</h6>
       </div>
       <div class="card-body px-0 pt-0 pb-2">
-        <div class="table-responsive p-0">
+        <div style="height: 200px;"  class="table-responsive p-0">
           <table class="table table-hover align-items-center mb-0">
             <thead>
               <tr class="text-center">
@@ -171,6 +223,7 @@ $dates = array_column($batchGrowthLogs, 'date');
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Loss</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reason</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -191,6 +244,32 @@ $dates = array_column($batchGrowthLogs, 'date');
                 <td>
                   <p class="text-xs font-weight-bold mb-0"><?= $batchLoss['date']; ?></p>
                 </td>
+                
+                <td class="text-center">
+                  <div class="dropdown">
+                    <span class="fa fa-ellipsis-h" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <!-- Edit -->
+                      <li>
+                        <a href="#" 
+                          class="dropdown-item" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#edit_loss_modal_<?= $batchLoss['id'] ?>">
+                          <i class="fa fa-edit me-2 text-primary"></i>Edit
+                        </a>
+                      </li>
+                      <!-- Delete -->
+                      <li>
+                        <a href="/delete_loss/<?= $batchLoss['id'] ?>/<?= $batchLoss['batchID'] ?>" 
+                          class="dropdown-item text-danger"
+                          onclick="return confirm('Are you sure you want to delete this entry?');">
+                          <i class="fa fa-trash me-2"></i>Delete
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+
               </tr>
             <?php endforeach; ?>
             </tbody>
@@ -209,11 +288,90 @@ $dates = array_column($batchGrowthLogs, 'date');
   <a data-toggle="modal" data-target=".add_growth_log_modal" class="btn btn-sm btn-outline-primary text-primary">RECORD GROWTH <span class="fa fa-plus"></span></a>
     <div class="col-md-12 p-2">
       <div class="card card-carousel">
-        <div class="card-body p-3">
+        
+      <div class="card">
+        <!-- Tabs -->
+        <ul class="nav nav-tabs px-3 pt-2" id="viewTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="chart-tab" data-bs-toggle="tab" data-bs-target="#chart-view" type="button" role="tab">
+              Chart View
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="table-tab" data-bs-toggle="tab" data-bs-target="#table-view" type="button" role="tab">
+              Table View
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Contents -->
+        <div class="tab-content p-3" id="viewTabsContent">
+          
+        <!-- Chart View -->
+        <div class="tab-pane fade show active" id="chart-view" role="tabpanel" aria-labelledby="chart-tab">
           <div class="chart">
             <canvas id="chart-lines" class="chart-canvas" height="300"></canvas>
           </div>
         </div>
+
+        <!-- Table View -->
+        <div class="tab-pane fade" id="table-view" role="tabpanel" aria-labelledby="table-tab">
+          <div style="height: 200px;"  class="table-responsive p-0">
+              <table id="growthtable" class="table table-hover align-items-center mb-0 text-center">
+                <thead class="text-sm text-secondary">
+                <tr>
+                  <th>Date</th>
+                  <th>Average Weight</th>
+                  <th>Notes</th>
+                  <th>More</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example rows -->
+                <?php foreach (array_reverse($batchGrowthLogs) as $log): ?>
+                <tr>
+                  <td><?= $log['date']; ?></td>
+                  <td><?= $log['averageWeight']; ?> kg</td>
+                  <td><?= substr($log['notes'], 0, 15) . (strlen($log['notes']) > 15 ? ' <span data-bs-toggle="tooltip" data-bs-title=" '. $log['notes'] .'" class="text-primary text-sm"> ....more </span>' : ''); ?></td>
+                  
+                  <td class="text-center">
+                    <div class="dropdown">
+                      <span class="fa fa-ellipsis-h" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <!-- Edit -->
+                        <li>
+                          <a href="#" 
+                            class="dropdown-item" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#edit_growth_Log_modal<?= $log['id'] ?>">
+                            <i class="fa fa-edit me-2 text-primary"></i>Edit
+                          </a>
+                        </li>
+                        <!-- Delete -->
+                        <li>
+                          <a href="/delete_growth_log/<?= $log['id'] ?>/<?= $log['batchID'] ?>" 
+                            class="dropdown-item text-danger"
+                            onclick="return confirm('Are you sure you want to delete this entry?');">
+                            <i class="fa fa-trash me-2"></i>Delete
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+
+
+                </tr>
+                <?php endforeach; ?> 
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
       </div>
     </div>
   </div>
@@ -230,13 +388,14 @@ $dates = array_column($batchGrowthLogs, 'date');
         <h6>Health Records</h6>
       </div>
       <div class="card-body px-0 pt-0 pb-2">
-        <div class="table-responsive p-0">
+        <div style="height: 200px;"  class="table-responsive p-0">
           <table class="table table-hover align-items-center mb-0">
             <thead>
               <tr class="text-center">
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Costs</th>
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -250,6 +409,30 @@ $dates = array_column($batchGrowthLogs, 'date');
                 </td>
                 <td>
                   <p class="text-xs font-weight-bold mb-0"><?= $batchHealthRecord['date']; ?></p>
+                </td>
+                <td class="text-center">
+                  <div class="dropdown">
+                    <span class="fa fa-ellipsis-h" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <!-- Edit -->
+                      <li>
+                        <a href="#" 
+                          class="dropdown-item" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="#edit_health_record_modal_<?= $batchHealthRecord['id'] ?>">
+                          <i class="fa fa-edit me-2 text-primary"></i>Edit
+                        </a>
+                      </li>
+                      <!-- Delete -->
+                      <li>
+                        <a href="/delete_health_record/<?= $batchHealthRecord['id'] ?>/<?= $batchHealthRecord['batchID'] ?>" 
+                          class="dropdown-item text-danger"
+                          onclick="return confirm('Are you sure you want to delete this entry?');">
+                          <i class="fa fa-trash me-2"></i>Delete
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             <?php endforeach; ?>

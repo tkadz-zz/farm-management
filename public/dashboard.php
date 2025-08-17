@@ -157,7 +157,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
               <h6>Available Batches</h6>
             </div>
           <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
+            <div style="height: 250px;" class="table-responsive p-0">
               <table id="dataTable" class="table table-hover table-striped align-items-center mb-0">
                 <thead>
                   <tr>
@@ -166,7 +166,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created At</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Due</th>
-                    <th class="text-secondary opacity-7"></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,7 +175,7 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                          <p class="mb-0 text-sm"><?= $batch['batchName'] ?></p>
+                          <p class="mb-0 text-sm"><a class="text-primary" href="/batch/<?= $batch['id'] ?>"><?= $batch['batchName'] ?></a></p>
                         </div>
                       </div>
                     </td>
@@ -191,12 +191,135 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
                     <td class="align-middle text-center">
                       <span class="text-secondary text-xs font-weight-bold"><?= date('d/m/y', strtotime($batch['expected_at'])) ?></span>
                     </td>
-                    <td class="align-middle">
-                      <a href="/batch/<?= $batch['id'] ?>" class="text-primary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                        <span class="fa fa-computer-mouse"></span> View
-                      </a>
+
+                    <td class="text-center">
+                      <div class="dropdown">
+                        <span class="fa fa-ellipsis-h" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <!-- View -->
+                          <li>
+                            <a href="/batch/<?= $batch['id'] ?>"
+                              class="dropdown-item">
+                              <i class="fa fa-eye me-2 text-primary"></i>View
+                            </a>
+                          </li>
+
+                          <!-- Edit -->
+                          <li>
+                            <a href="#" 
+                              class="dropdown-item" 
+                              data-toggle="modal" 
+                              data-target=".edit_batch_modal_<?= $batch['id'] ?>">
+                              <i class="fa fa-edit me-2 text-primary"></i>Edit
+                            </a>
+                          </li>
+
+                          
+                          <!-- Delete -->
+                          <li>
+                            <a href="delete_batch/<?= $batch['id'] ?>" 
+                              class="dropdown-item text-danger"
+                              onclick="return confirm('Are you sure you want to delete this entry?');">
+                              <i class="fa fa-trash me-2"></i>Delete
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
                     </td>
                   </tr>
+
+                  <div style="z-index: 9999;" class="modal fade edit_batch_modal_<?= $batch['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="editBatchLabel_<?= $batch['id'] ?>" aria-hidden="true">
+                    <div class="modal-dialog modal-lg p-2">
+                      <div class="modal-content p-2">
+                        <div class="p-3">
+                          
+                          <!-- Close Button -->
+                          <div><span class="close" data-dismiss="modal" aria-label="Close">x</span></div>
+
+
+                          <!-- Header -->
+                          <div class="border-bottom mb-3 pb-2">
+                            <h5 class="mb-0">EDIT BATCH</h5>
+                          </div>
+
+                          <!-- Form -->
+                          <form action="/update_batch" method="POST">
+                            <input type="hidden" name="batchID" value="<?= $batch['id'] ?>">
+
+                            <div class="row mb-3">
+                              <div class="col-md-6">
+                                <label for="livestockID" class="form-label">Livestock</label>
+                                <select name="livestockID" id="livestockID" class="form-select" required>
+                                  <option value="">--Select livestock--</option>
+                                  <?php foreach ($livestock as $livestockitem) : ?>
+                                      <option value="<?= $livestockitem['id'] ?>" 
+                                          <?= $batch['livestockID'] == $livestockitem['id'] ? 'selected' : '' ?>>
+                                          <?= htmlspecialchars($livestockitem['livestockName']) ?> - <?= htmlspecialchars($livestockitem['category']) ?>
+                                      </option>
+                                  <?php endforeach; ?>
+                                </select>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">Batch Name</label>
+                                <input type="text" class="form-control" name="batchName" value="<?= $batch['batchName'] ?>" required>
+                              </div>
+                            </div>
+
+                            <div class="row mb-3">
+                              <div class="col-md-6">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" step="1" min="1" class="form-control" name="quantity" value="<?= $batch['quantity'] ?>" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">($) Cost/unit</label>
+                                <input type="number" step="0.01" min="0.01" class="form-control" name="costPerUnit" value="<?= $batch['costPerUnit'] ?>" required>
+                              </div>
+                            </div>
+
+                            <div class="row mb-3">
+                              <div class="col-md-6">
+                                <label class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control" name="purchasedOn" value="<?= $batch['purchaseDate'] ?>" required>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">Expected At</label>
+                                <input type="date" class="form-control" name="expectedAt" value="<?= $batch['expected_at'] ?>" required>
+                              </div>
+                            </div>
+
+
+                            <div class="row mb-3">
+                              <div class="col-md-6">
+                                <label for="purchasedFrom" class="form-label">Purchased From</label>
+                                <input name="purchasedFrom" type="text" id="purchasedFrom" value="<?= $batch['source'] ?>" class="form-control" placeholder="Enter supplier name">
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">Status</label>
+                                <select class="form-control" name="status" required>
+                                  <option value="active" <?= $batch['status'] == 'active' ? 'selected' : '' ?>>Active</option>
+                                  <option value="completed" <?= $batch['status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
+                                  <option value="archived" <?= $batch['status'] == 'archived' ? 'selected' : '' ?>>Archived</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="form-label">Notes</label>
+                              <textarea class="form-control" name="notes" rows="3"><?= $batch['notes'] ?></textarea>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="d-flex justify-content-end">
+                              <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                              <button type="submit" class="btn btn-primary">Update Batch</button>
+                            </div>
+                          </form>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 <?php endforeach; ?>
                 </tbody>
               </table>
@@ -217,9 +340,12 @@ $total_loss_value = array_sum(array_column($batches, 'total_loss_value'));
             <?php foreach ($livestock as $livestock_role): ?>
               <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                   <div class="d-flex align-items-center">
-                    <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                      <i class="fa fa-cow text-white opacity-10"></i>
+                    <a href="/delete_livestock/<?= $livestock_role['id'] ?>"
+                    onclick="return confirm('Are you sure you want to delete this entry?');">
+                    <div class="icon icon-shape icon-sm me-3 bg-gradient-danger shadow text-center">
+                      <i class="fa fa-trash text-white opacity-10"></i>
                     </div>
+                    </a>
                     <div class="d-flex flex-column">
                       <h6 class="mb-1 text-dark text-sm"><?= $livestock_role['livestockName'] ?> - <span class=""><?= $livestock_role['category'] ?></span> </h6>
                       <span class="text-xs"> <?= $livestock_role['activeBatchCount'] ?> batch<?php if($livestock_role['activeBatchCount'] > 1): echo 's'; ?><?php endif; ?> of <?= $livestock_role['livestockName'] ?> </span></span>

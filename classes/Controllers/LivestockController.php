@@ -35,4 +35,18 @@ class LivestockController {
 
     }
 
+
+    public function deleteLivestock($id) {
+        $companyID = $_SESSION['user']['companyID'] ?? null;
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        if ($this->livestockModel->deleteLivestock($id, $companyID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Livestock deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete livestock.'];
+        }
+        header("Location: /dashboard");
+
+    }
+
 }

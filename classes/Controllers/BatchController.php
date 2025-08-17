@@ -131,4 +131,128 @@ class BatchController {
         exit;
     }
 
+
+
+    public function deleteSale($id, $batchID) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        if ($this->batchModel->deleteSale($id, $batchID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Sale deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete sale.'];
+        }
+
+        header("Location: /batch/" . $batchID);
+        exit;
+    }
+
+    public function deleteLoss($id, $batchID) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        if ($this->batchModel->deleteLoss($id, $batchID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Loss deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete loss.'];
+        }
+
+        header("Location: /batch/" . $batchID);
+        exit;
+    }
+
+    public function deleteGrowthLog($id, $batchID) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        if ($this->batchModel->deleteGrowthLog($id, $batchID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Growth log deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete growth log.'];
+        }
+
+        header("Location: /batch/" . $batchID);
+        exit;
+    }
+
+    public function deleteHealthRecord($id, $batchID) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+
+        if ($this->batchModel->deleteHealthRecord($id, $batchID, $userID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Health record deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete health record.'];
+        }
+
+        header("Location: /batch/" . $batchID);
+        exit;
+    }
+
+
+    public function deleteBatch($batchID) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+        
+        $companyID = $_SESSION['user']['companyID'] ?? null;
+        $userID = $_SESSION['user']['id'] ?? null;
+
+
+        if ($this->batchModel->deleteBatch($batchID, $companyID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Batch deleted successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to delete batch.'];
+        }
+
+        header("Location: /dashboard");
+        exit;
+    }
+
+
+    public function updateBatch($data) {
+        if (!isset($_SESSION['user'])) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Unauthorized access.'];
+            header("Location: ./sign-in");
+            exit;
+        }
+
+        $userID = $_SESSION['user']['id'] ?? null;
+        $companyID = $_SESSION['user']['companyID'] ?? null;
+
+        // Validate and process $data
+        if ($this->batchModel->updateBatch($data, $userID, $companyID)) {
+            $_SESSION['message'] = ['type' => 's', 'text' => 'Batch updated successfully.'];
+        } else {
+            $_SESSION['message'] = ['type' => 'd', 'text' => 'Failed to update batch.'];
+        }
+
+        header("Location: /dashboard");
+        exit;
+    }
+    
+
+
 }

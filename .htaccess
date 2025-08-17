@@ -20,8 +20,6 @@ RewriteRule ^track$ track.php [L,QSA]
 # Rewrite rules for other pages
 # Route to controller, not view 
 RewriteRule ^dashboard$ routes/web.php?url=dashboard [L,QSA]
-RewriteRule ^batch/([0-9]+)$ routes/web.php?url=batch&batch=$1 [L,QSA]
-RewriteRule ^livestock/([0-9]+)$ routes/web.php?url=livestock&livestock=$1 [L,QSA]
 RewriteRule ^profile$ routes/web.php?url=profile [L,QSA]
 RewriteRule ^add_batch$ routes/web.php?url=add_batch [L,QSA]
 RewriteRule ^add_livestock$ routes/web.php?url=add_livestock [L,QSA]
@@ -29,6 +27,20 @@ RewriteRule ^add_sale$ routes/web.php?url=add_sale [L,QSA]
 RewriteRule ^add_loss$ routes/web.php?url=add_loss [L,QSA]
 RewriteRule ^add_health_record$ routes/web.php?url=add_health_record [L,QSA]
 RewriteRule ^add_growth_log$ routes/web.php?url=add_growth_log [L,QSA]
+
+#routes with data
+RewriteRule ^batch/([0-9]+)$ routes/web.php?url=batch&batch=$1 [L,QSA]
+RewriteRule ^livestock/([0-9]+)$ routes/web.php?url=livestock&livestock=$1 [L,QSA]
+#update route
+RewriteRule ^update_batch$ routes/web.php?url=update_batch [L,QSA]
+
+#delete routes
+RewriteRule ^delete_sale/([0-9]+)/([0-9]+)$ routes/web.php?url=delete_sale&id=$1&batchID=$2 [L,QSA]
+RewriteRule ^delete_loss/([0-9]+)/([0-9]+)$ routes/web.php?url=delete_loss&id=$1&batchID=$2 [L,QSA]
+RewriteRule ^delete_growth_log/([0-9]+)/([0-9]+)$ routes/web.php?url=delete_growth_log&id=$1&batchID=$2 [L,QSA]
+RewriteRule ^delete_health_record/([0-9]+)/([0-9]+)$ routes/web.php?url=delete_health_record&id=$1&batchID=$2 [L,QSA]
+RewriteRule ^delete_batch/([0-9]+)$ routes/web.php?url=delete_batch&id=$1 [L,QSA]
+RewriteRule ^delete_livestock/([0-9]+)$ routes/web.php?url=delete_livestock&id=$1 [L,QSA]
 
 
 
